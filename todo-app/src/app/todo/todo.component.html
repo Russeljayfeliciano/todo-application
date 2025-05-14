@@ -1,0 +1,100 @@
+<div class="min-h-screen flex items-center justify-center task-gradient p-4">
+  <div class="w-full max-w-md task-card rounded-lg overflow-hidden shadow-xl">
+    <div class="p-5">
+      <h1 class="text-2xl font-bold text-gray-300 mb-4">Task List 2025</h1>
+
+      <!-- Search Bar -->
+      <div class="mb-4">
+        <mat-form-field class="w-full">
+          <input 
+            matInput 
+            [(ngModel)]="searchTerm" 
+            placeholder="Search tasks..." 
+            class="task-input p-2 rounded w-full"
+            (input)="filterTasks()" 
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Add Task Input -->
+      <div class="flex gap-2 mb-6">
+        <mat-form-field class="flex-1">
+          <input 
+            matInput 
+            [(ngModel)]="newTodoTitle" 
+            placeholder="What do you have planned?" 
+            class="task-input p-2 rounded"
+            (keyup.enter)="addTodo()" 
+          />
+        </mat-form-field>
+        <button 
+          mat-button 
+          class="add-button bg-transparent" 
+          (click)="addTodo()"
+        >
+          Add task
+        </button>
+      </div>
+
+      <h2 class="text-xl font-bold text-gray-400 mb-3">Tasks</h2>
+
+      <div class="space-y-3">
+        <div *ngFor="let todo of filteredTodos" class="task-item p-3 flex items-center justify-between">
+          <div class="flex items-center flex-1">
+            <mat-checkbox 
+              [(ngModel)]="todo.completed" 
+              (change)="updateTodo(todo)" 
+              class="mr-3"
+              [color]="'primary'"
+            ></mat-checkbox>
+            
+            <span 
+              *ngIf="!todo.editing" 
+              [class.line-through]="todo.completed" 
+              class="text-gray-300"
+            >
+              {{ todo.title }}
+            </span>
+            
+            <mat-form-field *ngIf="todo.editing" class="flex-1">
+              <input 
+                matInput 
+                [(ngModel)]="todo.editTitle" 
+                class="task-input p-1 rounded"
+                (blur)="saveEdit(todo)"
+                (keyup.enter)="saveEdit(todo)"
+                #editInput
+              />
+            </mat-form-field>
+          </div>
+          
+          <div class="flex gap-2">
+            <button 
+              mat-button 
+              *ngIf="!todo.editing" 
+              class="edit-button bg-transparent px-2 py-1 h-auto"
+              (click)="startEdit(todo)"
+            >
+              EDIT
+            </button>
+            <button 
+              mat-button 
+              *ngIf="todo.editing" 
+              class="save-button bg-transparent px-2 py-1 h-auto"
+              (click)="saveEdit(todo)"
+            >
+              SAVE
+            </button>
+            <button 
+              mat-button 
+              class="delete-button bg-transparent px-2 py-1 h-auto" 
+              (click)="deleteTodo(todo.id)"
+            >
+              DELETE
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

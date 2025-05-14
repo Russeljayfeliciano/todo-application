@@ -1,0 +1,17 @@
+<div class="p-4 max-w-xl mx-auto">
+  <h1 class="text-2xl font-bold mb-4">TODO List</h1>
+
+  <mat-form-field class="w-full">
+    <input matInput placeholder="New todo title" [(ngModel)]="newTodoTitle">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="addTodo()">Add</button>
+
+  <mat-list>
+    <mat-list-item *ngFor="let todo of todos">
+      <mat-checkbox [(ngModel)]="todo.completed" (change)="updateTodo(todo)">{{ todo.title }}</mat-checkbox>
+      <button mat-icon-button color="warn" (click)="deleteTodo(todo.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</div>
